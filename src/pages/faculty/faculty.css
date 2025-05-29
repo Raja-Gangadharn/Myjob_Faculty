@@ -1,0 +1,24 @@
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(2px); 
+  background-color: rgba(206, 24, 24, 0.2);
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: backdrop-filter 0.3s ease, background-color 0.3s ease;
+}
+
+.popup-modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background-color: rgb(230, 19, 19);
+  border-radius: 12px;
+}
+

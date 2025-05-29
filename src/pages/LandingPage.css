@@ -1,0 +1,21 @@
+/* Animations for Faculty/Recruiter buttons */
+.portal-btn {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+}
+
+.faculty-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
+}
+
+.recruiter-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(25, 135, 84, 0.5);
+}
+
+/* Background section */
+.landing-body {
+  min-height: calc(100vh - 72px); /* minus header */
+  
+}
