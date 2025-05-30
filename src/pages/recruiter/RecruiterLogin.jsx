@@ -1,8 +1,6 @@
 import { Link,useNavigate } from "react-router-dom";
 import "./recruiter.css"; 
 
-
-
 export const RecruiterLogin = () => {
   const navigate = useNavigate();
 
@@ -27,7 +25,7 @@ export const RecruiterLogin = () => {
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
         <div className="text-center mt-3">
-          <p>New user? <Link to="/faculty/register">Register here</Link></p>
+          <p>New user? <Link to="/recruiter/registration">Register here</Link></p>
         </div>
       </div>
     </div>

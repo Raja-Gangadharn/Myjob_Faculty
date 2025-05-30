@@ -22,3 +22,8 @@
   border-radius: 12px;
 }
 
+.left-panel {
+  background-color: #0d6efd; /* Bootstrap primary blue */
+  padding: 40px;
+  min-height: 100vh;
+}
