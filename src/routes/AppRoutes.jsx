@@ -2,8 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import LandingPage from "../pages/LandingPage"
 import { FacultyLogin } from "../pages/faculty/FacultyLogin";
 import { FacultyDashboard } from "../pages/faculty/FacultyDashboard";
-import { RecruiterLogin } from "../pages/Recruiter/RecruiterLogin";
-import { RecruiterDashboard } from "../pages/Recruiter/RecruiterDashboard";
+import { RecruiterLogin } from "../pages/recruiter/RecruiterLogin";
+import { RecruiterDashboard } from "../pages/recruiter/RecruiterDashboard";
 
 
 export const AppRoutes = () => {
@@ -16,7 +16,7 @@ export const AppRoutes = () => {
 
       <Route path="/faculty/dashboard" element={<FacultyDashboard/>} />
       
-      <Route path="/recruiter/login" element={<RecruiterLogin/>} />
+      <Route path="/recruiter/login" element={<RecruiterLogin/>}/>
 
       <Route path="/recruiter/dashboard" element={<RecruiterDashboard/>} />
 
