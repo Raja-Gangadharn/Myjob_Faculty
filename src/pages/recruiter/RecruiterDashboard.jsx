@@ -1,7 +1,21 @@
-import React from 'react'
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUserRole } from "../../services/authService";
 
 export const RecruiterDashboard = () => {
+ const navigate = useNavigate();
+
+  useEffect(() => {
+    const { isAuthenticated, isRecriter } = getUserRole();
+
+    if (!isAuthenticated || !isRecriter) {
+      navigate("/recriter/login");
+    }
+  }, [navigate]);
+
   return (
-    <div>RecruiterDashboard</div>
-  )
-}
+    <div className="container">
+      <h1>Welcome to Recruiter Dashboard</h1>
+    </div>
+  );
+};

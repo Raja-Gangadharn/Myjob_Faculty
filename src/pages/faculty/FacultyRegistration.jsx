@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import './faculty.css'; // Custom styles
 
@@ -37,6 +38,9 @@ export const FacultyRegistration = () => {
     console.log('Form Submitted:', formData);
   };
 
+=======
+const FacultyRegistration = () => {
+>>>>>>> de83df2cf4225a96b0078082483221a70295d792
   return (
     <div className="container-fluid min-vh-100 d-flex p-0">
       {/* Left Panel */}
