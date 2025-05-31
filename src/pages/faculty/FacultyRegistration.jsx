@@ -1,6 +1,7 @@
-<<<<<<< HEAD
-import React, { useState } from 'react';
-import './faculty.css'; // Custom styles
+import { useState } from 'react';
+import { registerFaculty } from '../../services/authService';
+import { Link } from "react-router-dom";
+import './faculty.css';
 
 export const FacultyRegistration = () => {
   const [formData, setFormData] = useState({
@@ -11,177 +12,191 @@ export const FacultyRegistration = () => {
     workPreference: '',
     resume: null,
     transcripts: null,
-    agreeTerms: false
+    agreeTerms: false,
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === 'file') {
-      setFormData(prev => ({
-        ...prev,
-        [name]: files[0]
-      }));
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        [name]: type === 'checkbox' ? checked : value
+        [name]: type === 'checkbox' ? checked : value,
       }));
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.agreeTerms) {
-      alert('You must agree to the terms and conditions.');
-      return;
-    }
-    console.log('Form Submitted:', formData);
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required.';
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required.';
+    if (!formData.email.trim()) newErrors.email = 'Email is required.';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email format.';
+    if (!formData.password) newErrors.password = 'Password is required.';
+    else if (formData.password.length < 6) newErrors.password = 'Password must be at least 6 characters.';
+    if (!formData.workPreference) newErrors.workPreference = 'Select a work preference.';
+    if (!formData.resume) newErrors.resume = 'Resume is required.';
+    if (!formData.transcripts) newErrors.transcripts = 'Transcripts are required.';
+    if (!formData.agreeTerms) newErrors.agreeTerms = 'You must agree to the terms.';
+    return newErrors;
   };
 
-=======
-const FacultyRegistration = () => {
->>>>>>> de83df2cf4225a96b0078082483221a70295d792
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const validationErrors = validate();
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+  }
+
+  try {
+    await registerFaculty(formData);
+    alert('Faculty registration successful!');
+    // Optionally redirect or clear form
+  } catch (err) {
+    alert(err.detail || 'Registration failed.');
+  }
+};
+
   return (
-    <div className="container-fluid min-vh-100 d-flex p-0">
-      {/* Left Panel */}
-      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center text-white left-panel">
-        <h1 className="mb-3">Welcome to Faculty Finder</h1>
-        <h4 className="mb-2 text-center">
-             Faculty Finder’s mission is simple…
-        </h4>
-        <p className="text-center w-75">
-         To connect Universities & Colleges to a professional network of qualified Faculty - Quickly - Efficiently – Inexpensively
-        </p>
-        <p className="text-center w-75">
-         Faculty Finder is a streamlined search portal that pairs qualified faculty with colleges
-        and universities in a matter of minutes
-        </p>
-      </div>
-
-      {/* Right Panel */}
-      <div className="col-md-6 d-flex align-items-center justify-content-center bg-white">
-        <form className="w-100 p-4" style={{ maxWidth: '500px' }} onSubmit={handleSubmit}>
-          <h3 className="mb-3">Registration</h3>
-          <p className="text-muted">Enter your details to register</p>
-
-          <div className="mb-3">
-            <label className="form-label">First Name *</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
+    <div className="d-flex  justify-content-center align-items-center  bg-light">
+      
+        <div className="row g-0 my-5 card-shadow ">
+          {/* Left Panel */}
+          <div className="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center bg-primary text-white p-4 rounded-start">
+            <h4 className="text-center mb-3">Welcome to Faculty Finder</h4>
+            <p className="text-center">
+              We connect universities with a professional network of qualified faculty — quickly, efficiently, and affordably.
+            </p>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Last Name *</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
+          {/* Right Panel */}
+          <div className="col-md-6 col-12 bg-white p-4 rounded-end">
+            <h4 className="mb-3 text-center text-md-start">Faculty Registration</h4>
+            <form onSubmit={handleSubmit} noValidate>
+              {/* First Name */}
+              <div className="mb-3">
+                <label className="form-label">First Name *</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
+                />
+                {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
+              </div>
+
+              {/* Last Name */}
+              <div className="mb-3">
+                <label className="form-label">Last Name *</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
+                />
+                {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+              </div>
+
+              {/* Email */}
+              <div className="mb-3">
+                <label className="form-label">Email *</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                />
+                {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+              </div>
+
+              {/* Password */}
+              <div className="mb-3">
+                <label className="form-label">Password *</label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                />
+                {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+              </div>
+
+              {/* Work Preference */}
+              <div className="mb-3">
+                <label className="form-label">Work Preference *</label>
+                <select
+                  name="workPreference"
+                  value={formData.workPreference}
+                  onChange={handleChange}
+                  className={`form-select ${errors.workPreference ? 'is-invalid' : ''}`}
+                >
+                  <option value="">Select preference</option>
+                  <option value="remote">Remote</option>
+                  <option value="onsite">Onsite</option>
+                  <option value="hybrid">Hybrid</option>
+                </select>
+                {errors.workPreference && <div className="invalid-feedback">{errors.workPreference}</div>}
+              </div>
+
+              {/* Resume */}
+              <div className="mb-3">
+                <label className="form-label">Upload Resume *</label>
+                <input
+                  type="file"
+                  name="resume"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleChange}
+                  className={`form-control ${errors.resume ? 'is-invalid' : ''}`}
+                />
+                {errors.resume && <div className="invalid-feedback">{errors.resume}</div>}
+              </div>
+
+              {/* Transcripts */}
+              <div className="mb-3">
+                <label className="form-label">Upload Transcripts *</label>
+                <input
+                  type="file"
+                  name="transcripts"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleChange}
+                  className={`form-control ${errors.transcripts ? 'is-invalid' : ''}`}
+                />
+                {errors.transcripts && <div className="invalid-feedback">{errors.transcripts}</div>}
+              </div>
+
+              {/* Terms */}
+              <div className="form-check mb-3">
+                <input
+                  type="checkbox"
+                  name="agreeTerms"
+                  checked={formData.agreeTerms}
+                  onChange={handleChange}
+                  className={`form-check-input ${errors.agreeTerms ? 'is-invalid' : ''}`}
+                  id="agreeTerms"
+                />
+                <label className="form-check-label" htmlFor="agreeTerms">
+                  I agree to the <a href="#">terms and conditions</a>
+                </label>
+                {errors.agreeTerms && <div className="invalid-feedback d-block">{errors.agreeTerms}</div>}
+              </div>
+
+              <button type="submit" className="btn btn-primary w-100">Sign up</button>
+
+              <p className="text-center mt-3">
+                Already have an account? <Link to="/faculty/login">Sign in</Link>
+              </p>
+            </form>
           </div>
-
-          <div className="mb-3">
-            <label className="form-label">Email *</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Password *</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Work Preference *</label>
-            <select
-              name="workPreference"
-              value={formData.workPreference}
-              onChange={handleChange}
-              className="form-select"
-              required
-            >
-              <option value="">Select preference</option>
-              <option value="remote">Remote</option>
-              <option value="onsite">Onsite</option>
-              <option value="hybrid">Hybrid</option>
-            </select>
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Upload Resume *</label>
-            <input
-              type="file"
-              name="resume"
-              accept=".pdf,.doc,.docx"
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Upload Transcripts *</label>
-            <input
-              type="file"
-              name="transcripts"
-              accept=".pdf,.doc,.docx"
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
-
-          <div className="form-check mb-3">
-            <input
-              type="checkbox"
-              name="agreeTerms"
-              checked={formData.agreeTerms}
-              onChange={handleChange}
-              className="form-check-input"
-              id="agreeTerms"
-            />
-            <label className="form-check-label" htmlFor="agreeTerms">
-              I agree to the <a href="#">terms and conditions</a>
-            </label>
-          </div>
-
-          <button type="submit" className="btn btn-primary w-100">Sign up</button>
-
-          <p className="text-center mt-3">
-            Already have an account? <a href="#">Sign in</a>
-          </p>
-
-          <div className="text-center mt-4">
-            <p className="text-muted">Or sign in with</p>
-            <div className="d-flex justify-content-center gap-2">
-              <button type="button" className="btn btn-outline-secondary">Google</button>
-              <button type="button" className="btn btn-outline-secondary">Facebook</button>
-              <button type="button" className="btn btn-outline-secondary">Twitter</button>
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
+      
     </div>
   );
 };

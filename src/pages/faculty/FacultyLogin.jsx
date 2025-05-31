@@ -42,7 +42,7 @@ export const FacultyLogin = () => {
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
         <div className="text-center mt-3">
-          <p>New user? <Link to="/faculty/Registration">Register here</Link></p>
+          <p>New user? <Link to="/faculty/registration">Register here</Link></p>
         </div>
       </div>
     </div>
