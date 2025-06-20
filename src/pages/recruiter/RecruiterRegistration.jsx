@@ -32,36 +32,35 @@ export const RecruiterRegistration = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const validationErrors = validate();
-  if (Object.keys(validationErrors).length > 0) {
-    setErrors(validationErrors);
-    return;
-  }
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-  try {
-    await registerRecruiter(formData);
-    alert('Recruiter registration successful!');
-    // Optionally redirect or clear form
-  } catch (err) {
-    alert(err.detail || 'Registration failed.');
-  }
-};
+    try {
+      await registerRecruiter(formData);
+      alert('Recruiter registration successful!');
+      // Optionally redirect or clear form
+    } catch (err) {
+      alert(err.detail || 'Registration failed.');
+    }
+  };
   return (
-    <div className="d-flex  justify-content-center align-items-center min-vh-100 bg-light">
-      
-        <div className="row g-0 card-shadow">
-          {/* Left Panel */}
-          <div className="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center bg-primary text-white p-4 rounded-start">
-            <h4 className="text-center mb-3">Welcome to Faculty Recruiter</h4>
-            <p className="text-center">
-              We connect universities with a professional network of qualified faculty — quickly, efficiently, and affordably.
-            </p>
-          </div>
-
-          {/* Right Panel */}
-          <div className="col-md-6 col-12 bg-white p-4 rounded-end">
-            <h4 className="mb-3 text-center text-md-start">Recruiter Registration</h4>
+    <div className="d-flex justify-content-center align-items-center min-vh-100 bg-light">
+      <div className="row g-0 card-shadow shadow-lg rounded-4 overflow-hidden" style={{ maxWidth: '950px', width: '100%' }}>
+        {/* Left Panel */}
+        <div className="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center login-left-panel text-white p-4 rounded-start">
+          <h4 className="text-center mb-3">Welcome to Faculty Recruiter</h4>
+          <p className="text-center">
+            We connect universities with a professional network of qualified faculty — quickly, efficiently, and affordably.
+          </p>
+        </div>
+        {/* Right Panel */}
+        <div className="col-md-6 col-12 bg-white p-4 rounded-end d-flex align-items-center justify-content-center" style={{ minHeight: '600px' }}>
+          <div className="w-100" style={{ maxWidth: '400px' }}>
+            <h4 className="mb-3 text-center text-md-start recruiter-title">Recruiter Registration</h4>
             <form onSubmit={handleSubmit} noValidate>
               {/* First Name */}
               <div className="mb-3">
@@ -75,7 +74,6 @@ export const RecruiterRegistration = () => {
                 />
                 {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
               </div>
-
               {/* Last Name */}
               <div className="mb-3">
                 <label className="form-label">Last Name *</label>
@@ -88,7 +86,6 @@ export const RecruiterRegistration = () => {
                 />
                 {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
               </div>
-
               {/* College */}
               <div className="mb-3">
                 <label className="form-label">Choose College *</label>
@@ -105,7 +102,6 @@ export const RecruiterRegistration = () => {
                 </select>
                 {errors.college && <div className="invalid-feedback">{errors.college}</div>}
               </div>
-
               {/* Email */}
               <div className="mb-3">
                 <label className="form-label">College Email *</label>
@@ -118,7 +114,6 @@ export const RecruiterRegistration = () => {
                 />
                 {errors.email && <div className="invalid-feedback">{errors.email}</div>}
               </div>
-
               {/* Password */}
               <div className="mb-3">
                 <label className="form-label">Password *</label>
@@ -131,15 +126,17 @@ export const RecruiterRegistration = () => {
                 />
                 {errors.password && <div className="invalid-feedback">{errors.password}</div>}
               </div>
-
-              <button type="submit" className="btn btn-primary w-100">Sign Up</button>
-              <p className="text-center mt-3">
-                Already have an account? <Link to="/recruiter/login">Sign in</Link>
+              <button type="submit" className="login-button btn btn-success w-100 d-flex align-items-center justify-content-center gap-2" style={{ fontWeight: 600, borderRadius: '10px', fontSize: '1.1rem' }}>
+                <span>Sign Up</span>
+                <span className="button-icon">→</span>
+              </button>
+              <p className="text-center mt-3 register-text">
+                Already have an account? <Link to="/recruiter/login" className="register-link">Sign in</Link>
               </p>
             </form>
           </div>
         </div>
-      
+      </div>
     </div>
   );
 };

@@ -6,9 +6,8 @@ export const RecruiterDashboard = () => {
  const navigate = useNavigate();
 
   useEffect(() => {
-    const { isAuthenticated, isRecriter } = getUserRole();
-
-    if (!isAuthenticated || !isRecriter) {
+    const { isAuthenticated, isRecruiter } = getUserRole();
+    if (!isAuthenticated || !isRecruiter) {
       navigate("/recriter/login");
     }
   }, [navigate]);

@@ -5,22 +5,23 @@ const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
 export const loginUser = async (email, password) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}token/`, {
+    const response = await axios.post(`${API_BASE_URL}login/`, {
       email,
       password
     });
 
-    const data = response.data;
+const data = response.data;
 
-    // Save tokens and role info in localStorage (or cookies if preferred)
-    localStorage.setItem('access_token', data.access);
-    localStorage.setItem('refresh_token', data.refresh);
-    localStorage.setItem('user_id', data.user_id);
-    localStorage.setItem('email', data.email);
-    localStorage.setItem('is_faculty', data.is_faculty);
-    localStorage.setItem('is_recruiter', data.is_recruiter);
+const { user, token } = data;
 
-    return data;
+localStorage.setItem('access_token', token.access);
+localStorage.setItem('refresh_token', token.refresh);
+localStorage.setItem('user_id', user.id);
+localStorage.setItem('email', user.email);
+localStorage.setItem('is_faculty', user.is_faculty);
+localStorage.setItem('is_recruiter', user.is_recruiter);
+
+    return user;
   } catch (error) {
     throw error.response?.data || { detail: 'Login failed' };
   }
@@ -67,7 +68,6 @@ export const registerRecruiter = async (formData) => {
       email: formData.email,
       password: formData.password,
       college: formData.college,
-      is_recruiter: true,
     });
 
     return response.data;
